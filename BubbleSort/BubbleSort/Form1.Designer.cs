@@ -41,6 +41,7 @@
             this.bSort.TabIndex = 0;
             this.bSort.Text = "Sort";
             this.bSort.UseVisualStyleBackColor = true;
+            this.bSort.Click += new System.EventHandler(this.bSort_Click);
             // 
             // tbData
             // 
