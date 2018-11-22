@@ -30,12 +30,12 @@
         {
             this.bSort = new System.Windows.Forms.Button();
             this.tbData = new System.Windows.Forms.TextBox();
-            this.tbOutput = new System.Windows.Forms.TextBox();
+            this.lbOutput = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // bSort
             // 
-            this.bSort.Location = new System.Drawing.Point(301, 310);
+            this.bSort.Location = new System.Drawing.Point(161, 310);
             this.bSort.Name = "bSort";
             this.bSort.Size = new System.Drawing.Size(75, 23);
             this.bSort.TabIndex = 0;
@@ -50,21 +50,21 @@
             this.tbData.Size = new System.Drawing.Size(134, 321);
             this.tbData.TabIndex = 1;
             // 
-            // tbOutput
+            // lbOutput
             // 
-            this.tbOutput.Location = new System.Drawing.Point(153, 13);
-            this.tbOutput.Multiline = true;
-            this.tbOutput.Name = "tbOutput";
-            this.tbOutput.ReadOnly = true;
-            this.tbOutput.Size = new System.Drawing.Size(142, 320);
-            this.tbOutput.TabIndex = 2;
+            this.lbOutput.FormattingEnabled = true;
+            this.lbOutput.ItemHeight = 16;
+            this.lbOutput.Location = new System.Drawing.Point(260, 9);
+            this.lbOutput.Name = "lbOutput";
+            this.lbOutput.Size = new System.Drawing.Size(137, 324);
+            this.lbOutput.TabIndex = 3;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 345);
-            this.Controls.Add(this.tbOutput);
+            this.ClientSize = new System.Drawing.Size(618, 350);
+            this.Controls.Add(this.lbOutput);
             this.Controls.Add(this.tbData);
             this.Controls.Add(this.bSort);
             this.Name = "Form1";
@@ -78,7 +78,7 @@
 
         private System.Windows.Forms.Button bSort;
         private System.Windows.Forms.TextBox tbData;
-        private System.Windows.Forms.TextBox tbOutput;
+        private System.Windows.Forms.ListBox lbOutput;
     }
 }
 
