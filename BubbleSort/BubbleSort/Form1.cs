@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BubbleSort;
@@ -30,17 +31,55 @@ namespace BubbleSort
                     {
                         temp = arr[sort + 1];
                         arr[sort + 1] = arr[sort];
-                        arr[sort] = temp;
+                        arr[sort] = temp;                        
                     }
                 }
             }
+            for (int i = 0; i < arr.Length; i++)
+            {
+                AppendListBox(arr[i].ToString());
+            }
+        }
+
+        public void CheckID(int value)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<int>(CheckID), new object[] { value });
+                return;
+            }
+            lbOutput.SelectedIndex = 0;
+        }
+
+        public void ClearListBox(string value)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<string>(ClearListBox), new object[] { value });
+                return;
+            }
+            lbOutput.Items.Clear();
+        }
+
+        public void AppendListBox(string value)
+        {
+            if (InvokeRequired)
+            {
+                this.Invoke(new Action<string>(AppendListBox), new object[] { value });
+                return;
+            }
+            lbOutput.Items.Add(value);
         }
 
         private void bSort_Click(object sender, EventArgs e)
         {
-            BubbleSort bs = new BubbleSort();
-            Int32[] numbers = tbData.Text.Split('\n').Select(s => Int32.Parse(s)).ToArray();
-            
+            String[] strarray = tbData.Text.Split(' ');
+            int[] numbers = Array.ConvertAll(strarray, s => int.Parse(s));
+
+            Thread.CurrentThread.Name = "Main";
+
+            Task taskA = new Task(() => BubbleSorting(numbers));
+            taskA.Start();
         }
     }
 }
