@@ -8,8 +8,8 @@ namespace SortPrzezPodstawianie
 {
     class Program
     {
-        public static int[] tosort = { 3, 6, 1, 2, 7, 11, 5, 1, 8, 9, 31, 5, 1, 9, 10 };
-        public static List<int> array = tosort.ToList();
+        public static int[] tosort = new int[1];
+        public static List<int> array = new List<int>();
         public static List<int> indexes = new List<int>();
         public static int steps = 0;
         public static int step = 0;
@@ -17,6 +17,12 @@ namespace SortPrzezPodstawianie
 
         static void Main(string[] args)
         {
+            int[] newarray = { 3, 6, 1, 2, 7, 11, 5, 1, 8, 9, 31, 5, 1, 9, 10, 11, 7, 3, 5, 9, 2, 1, 9, 34, 21, 65, 11, 77, 1, 8, 9, 43, 23 };
+            Array.Resize(ref tosort, newarray.Count());
+            tosort = newarray;
+
+            array = tosort.ToList();
+
             for(int i =0; i< array.Count(); i++)
             {
                 indexes.Add(i);
@@ -72,7 +78,8 @@ namespace SortPrzezPodstawianie
 
             for(step = 1; step <= steps; step++)
             {
-                Parallel.For(0, (int)Math.Ceiling(Math.Log(2, array.Count()))+50, CompareSwap);
+                //Parallel.For(0, (int)Math.Ceiling(Math.Log(2, array.Count()))+50, CompareSwap);
+                Parallel.For(0, (int)array.Count()+(int)Math.Pow(2, step), CompareSwap);
             }
         }
 
