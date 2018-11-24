@@ -8,11 +8,12 @@ namespace SortPrzezPodstawianie
 {
     class Program
     {
-        public static int[] tosort = { 1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19, 20, 21, 22, 23 };
+        public static int[] tosort = { 3, 6, 1, 2, 7, 11, 5, 1, 8, 9, 31, 5, 1, 9, 10 };
         public static List<int> array = tosort.ToList();
         public static List<int> indexes = new List<int>();
         public static int steps = 0;
         public static int step = 0;
+        public static int mainstep = 0;
 
         static void Main(string[] args)
         {
@@ -21,13 +22,32 @@ namespace SortPrzezPodstawianie
                 indexes.Add(i);
             }
 
-            FindMaximalValue();
-            for (int i = 0; i < array.Count(); i++)
+            for(int i = tosort.Count()-1; i >= 0; i--)
             {
-                Console.WriteLine(indexes[i]);
+                FindMaximalValue();
+
+                int temp = tosort[array.Count() - 1];
+                tosort[array.Count() - 1] = tosort[indexes[0]];
+                tosort[indexes[0]] = temp;
+                ResetIndexes();
+                mainstep++;
+                ShortenArray();
             }
-            ResetIndexes();
+
+            for (int i = 0; i < tosort.Count(); i++)
+            {
+                Console.WriteLine(tosort[i]);
+            }
             Console.ReadKey();
+        }
+
+        public static void ShortenArray()
+        {
+            array.Clear();
+            for(int i = 0; i < tosort.Count()-mainstep; i++)
+            {
+                array.Add(tosort[i]);
+            }
         }
 
         private static void ResetIndexes()
