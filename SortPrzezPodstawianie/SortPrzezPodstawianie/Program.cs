@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,103 +9,50 @@ namespace SortPrzezPodstawianie
 {
     class Program
     {
-        public static int[] tosort = new int[1];
-        public static List<int> array = new List<int>();
-        public static List<int> indexes = new List<int>();
-        public static int steps = 0;
-        public static int step = 0;
-        public static int mainstep = 0;
-
         static void Main(string[] args)
         {
-            int[] newarray = { 3, 6, 1, 2, 7, 11, 5, 1, 8, 9, 31, 5, 1, 9, 10, 11, 7, 3, 5, 9, 2, 1, 9, 34, 21, 65, 11, 77, 1, 8, 9, 43, 23 };
-            Array.Resize(ref tosort, newarray.Count());
-            tosort = newarray;
+            PodstawienieWielowatkowo wielo = new PodstawienieWielowatkowo();
+            SortowanieJednowatkowe jedno = new SortowanieJednowatkowe();
 
-            array = tosort.ToList();
+            List<int> numbers = new List<int>();
+            Random rnd = new Random();
 
-            for(int i =0; i< array.Count(); i++)
+            for(int j = 0; j < 50; j ++)
             {
-                indexes.Add(i);
+                numbers.Clear();
+                /*for (int i = 0; i < 100 + 500*j; i++)
+                {
+                    numbers.Add(rnd.Next(0, 1000000));
+                }*/
+
+                numbers.AddRange(new int[]{1,4,7,2,3,5,8,11,2,1});
+
+                int[] arr1 = numbers.ToArray();
+                int[] arr2 = numbers.ToArray();
+
+                var watch1 = System.Diagnostics.Stopwatch.StartNew();
+                jedno.Sortuj(arr1);
+                watch1.Stop();
+                var elapsedMs1 = watch1.ElapsedMilliseconds;
+                using (StreamWriter w = File.AppendText("data1.txt"))
+                {
+                    w.WriteLine(arr1.Length + " " + elapsedMs1);
+                }
+
+
+                var watch2 = System.Diagnostics.Stopwatch.StartNew();
+                wielo.Sortuj(arr2);
+                watch2.Stop();
+                var elapsedMs2 = watch2.ElapsedMilliseconds;
+                using (StreamWriter w = File.AppendText("data2.txt"))
+                {
+                    w.WriteLine(arr2.Length + " " + elapsedMs2);
+                }
             }
 
-            for(int i = tosort.Count()-1; i >= 0; i--)
-            {
-                FindMaximalValue();
+            Console.WriteLine("done");
 
-                int temp = tosort[array.Count() - 1];
-                tosort[array.Count() - 1] = tosort[indexes[0]];
-                tosort[indexes[0]] = temp;
-                ResetIndexes();
-                mainstep++;
-                ShortenArray();
-            }
-
-            for (int i = 0; i < tosort.Count(); i++)
-            {
-                Console.WriteLine(tosort[i]);
-            }
             Console.ReadKey();
-        }
-
-        public static void ShortenArray()
-        {
-            array.Clear();
-            for(int i = 0; i < tosort.Count()-mainstep; i++)
-            {
-                array.Add(tosort[i]);
-            }
-        }
-
-        private static void ResetIndexes()
-        {
-            for (int i = 0; i < array.Count(); i++)
-            {
-                indexes[i]=i;
-            }
-        }
-
-        private static void Initialize()
-        {
-            for(int i =0; i < array.Count(); i++)
-            {
-                indexes.Add(i);
-            }
-        }
-
-        private static void FindMaximalValue()
-        {
-            steps = (int)Math.Ceiling(Math.Log(array.Count(), 2));
-
-            for(step = 1; step <= steps; step++)
-            {
-                //Parallel.For(0, (int)Math.Ceiling(Math.Log(2, array.Count()))+50, CompareSwap);
-                Parallel.For(0, (int)array.Count()+(int)Math.Pow(2, step), CompareSwap);
-            }
-        }
-
-        private static void CompareSwap(int i)
-        {
-            int index1 = i * (int)Math.Pow(2, step);
-            int index2 = (int)Math.Pow(2, step - 1) + i * (int)Math.Pow(2, step);
-
-            if (index2<array.Count())
-            {
-                if (array[index1] > array[index2])
-                {
-                    //Nothing to do
-                }
-                else
-                {
-                    int temp = array[index1];
-                    array[index1] = array[index2];
-                    array[index2] = temp;
-
-                    int tempindex = index1;
-                    indexes[index1] = indexes[index2];
-                    indexes[index2] = tempindex;
-                }
-            }
         }
     }
 }
