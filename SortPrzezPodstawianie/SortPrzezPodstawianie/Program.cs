@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,39 +12,65 @@ namespace SortPrzezPodstawianie
         public static int[] tosort = new int[1];
         public static List<int> array = new List<int>();
         public static List<int> indexes = new List<int>();
-        public static int steps = 0;
+        public static long steps = 0;
         public static int step = 0;
         public static int mainstep = 0;
 
         static void Main(string[] args)
         {
-            int[] newarray = { 3, 6, 1, 2, 7, 11, 5, 1, 8, 9, 31, 5, 1, 9, 10, 11, 7, 3, 5, 9, 2, 1, 9, 34, 21, 65, 11, 77, 1, 8, 9, 43, 23 };
-            Array.Resize(ref tosort, newarray.Count());
-            tosort = newarray;
+            List<int> numbers = new List<int>();
+            Random rnd = new Random();
 
-            array = tosort.ToList();
+            for (int j = 0; j < 60; j++) {
+                numbers.Clear();
+                for (int i = 0; i < 500*j; i++)
+                {
+                    numbers.Add(rnd.Next(0, 1000000));
+                }
 
-            for(int i =0; i< array.Count(); i++)
-            {
-                indexes.Add(i);
+                int[] newarray = numbers.ToArray();
+                Array.Resize(ref tosort, newarray.Count());
+                tosort = newarray;
+
+                array = tosort.ToList();
+
+                for (int i = 0; i < array.Count(); i++)
+                {
+                    indexes.Add(i);
+                }
+
+                var watch1 = System.Diagnostics.Stopwatch.StartNew();
+
+                for (int i = tosort.Count() - 1; i > 0; i--)
+                {
+                    if (array.Count() != 0)
+                    {
+                        FindMaximalValue();
+                        int temp = tosort[array.Count() - 1];
+                        tosort[array.Count() - 1] = tosort[indexes[0]];
+                        tosort[indexes[0]] = temp;
+                        ResetIndexes();
+                        mainstep++;
+                    }
+
+                    
+                    if (array.Count > 0)
+                    {
+                        ShortenArray();
+                    }
+                }
+
+                watch1.Stop();
+                var elapsedMs1 = watch1.ElapsedMilliseconds;
+                using (StreamWriter w = File.AppendText("data1.txt"))
+                {
+                    //Nothing to do
+                    w.WriteLine(numbers.Count() + " " + elapsedMs1);
+                }
+                Console.WriteLine("done");
             }
 
-            for(int i = tosort.Count()-1; i >= 0; i--)
-            {
-                FindMaximalValue();
-
-                int temp = tosort[array.Count() - 1];
-                tosort[array.Count() - 1] = tosort[indexes[0]];
-                tosort[indexes[0]] = temp;
-                ResetIndexes();
-                mainstep++;
-                ShortenArray();
-            }
-
-            for (int i = 0; i < tosort.Count(); i++)
-            {
-                Console.WriteLine(tosort[i]);
-            }
+            Console.WriteLine("done all");
             Console.ReadKey();
         }
 
@@ -74,7 +101,7 @@ namespace SortPrzezPodstawianie
 
         private static void FindMaximalValue()
         {
-            steps = (int)Math.Ceiling(Math.Log(array.Count(), 2));
+            steps = (long)Math.Ceiling(Math.Log(array.Count(), 2));
 
             for(step = 1; step <= steps; step++)
             {
