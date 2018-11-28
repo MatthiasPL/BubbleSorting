@@ -17,15 +17,13 @@ namespace SortPrzezPodstawianie
             List<int> numbers = new List<int>();
             Random rnd = new Random();
 
-            for(int j = 0; j < 50; j ++)
+            for(int j = 0; j <= 60; j ++)
             {
                 numbers.Clear();
-                /*for (int i = 0; i < 100 + 500*j; i++)
+                for (int i = 0; i < 500*j; i++)
                 {
                     numbers.Add(rnd.Next(0, 1000000));
-                }*/
-
-                numbers.AddRange(new int[]{1,4,7,2,3,5,8,11,2,1});
+                }
 
                 int[] arr1 = numbers.ToArray();
                 int[] arr2 = numbers.ToArray();
@@ -38,19 +36,10 @@ namespace SortPrzezPodstawianie
                 {
                     w.WriteLine(arr1.Length + " " + elapsedMs1);
                 }
-
-
-                var watch2 = System.Diagnostics.Stopwatch.StartNew();
-                wielo.Sortuj(arr2);
-                watch2.Stop();
-                var elapsedMs2 = watch2.ElapsedMilliseconds;
-                using (StreamWriter w = File.AppendText("data2.txt"))
-                {
-                    w.WriteLine(arr2.Length + " " + elapsedMs2);
-                }
+                Console.WriteLine("done");
             }
 
-            Console.WriteLine("done");
+            Console.WriteLine("done all");
 
             Console.ReadKey();
         }
