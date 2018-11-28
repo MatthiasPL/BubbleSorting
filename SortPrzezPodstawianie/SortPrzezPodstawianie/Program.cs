@@ -65,7 +65,7 @@ namespace SortPrzezPodstawianie
                 using (StreamWriter w = File.AppendText("data2.txt"))
                 {
                     //Nothing to do
-                    w.WriteLine(numbers.Count() + " " + elapsedMs1);
+                    w.WriteLine(elapsedMs1 + " " + numbers.Count() );
                 }
                 Console.WriteLine("done");
             }
