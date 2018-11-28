@@ -62,7 +62,7 @@ namespace SortPrzezPodstawianie
 
                 watch1.Stop();
                 var elapsedMs1 = watch1.ElapsedMilliseconds;
-                using (StreamWriter w = File.AppendText("data1.txt"))
+                using (StreamWriter w = File.AppendText("data2.txt"))
                 {
                     //Nothing to do
                     w.WriteLine(numbers.Count() + " " + elapsedMs1);
